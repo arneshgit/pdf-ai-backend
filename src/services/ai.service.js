@@ -8,15 +8,22 @@ export async function askAI({ question, contextText }) {
   });
 
   const prompt = `
-You are a helpful assistant.
+You are a chat assistant.
+
+You will be given:
+- DOCUMENT text (with file names)
+- A QUESTION
 
 RULES:
-1) Answer ONLY using the provided DOCUMENT text.
-2) Match keywords from the QUESTION with the DOCUMENT text.
-3) If itmatches answer by including the file name shown at the start of that document section.
-4) Do NOT guess or use outside knowledge.
-5) If the answer is not present, reply exactly:
-I cannot find that information in the uploaded documents.
+1) Use ONLY the provided DOCUMENT text.
+2) Understand the requirment from question
+3) while answering from the document use the below format
+
+FILE: <filename>
+Answer: <copy only the matching line/part from document>
+
+4) Do NOT paste the full document text.
+5) Maximum 50 words.
 
 DOCUMENT TEXT:
 ${contextText}

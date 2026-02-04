@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
     const queryEmbedding = await embedText(question);
 
     // 2) search documents
-    const docs = await searchDocuments(queryEmbedding, 2);
+    const docs = await searchDocuments(queryEmbedding, 1);
 
     if (!docs.length) {
       return res.json({
@@ -31,11 +31,11 @@ router.post("/", async (req, res) => {
 
     // 3) build context
     const contextText = docs
-      .map(
-        (d, i) =>
-          `DOCUMENT ${i + 1}: ${d.filename}\n\n${d.text.substring(0, 12000)}`
-      )
-      .join("\n\n-----------------\n\n");
+  .map(
+    (d, i) =>
+      `DOC ${i + 1} (${d.filename}):\n${d.text.substring(0, 12000)}`
+  )
+  .join("\n\n---\n\n");
 
     // 4) ask Gemini
     const answer = await askAI({
